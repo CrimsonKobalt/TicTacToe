@@ -1,6 +1,5 @@
 package debacker.christophe;
 
-import debacker.christophe.board.AcceptedMoveLoggingBoard;
 import debacker.christophe.board.Board;
 import debacker.christophe.board.SimpleBoard;
 import debacker.christophe.player.DumbAIPlayer;
@@ -17,8 +16,7 @@ public class Main {
         Player player1 = new DumbAIPlayer('X');
         //Player player2 = new DumbAIPlayer('O');
         Player player2 = new HumanPlayer('O');
-        Board board = new AcceptedMoveLoggingBoard(new SimpleBoard());
-
+        Board board = new SimpleBoard();
 
         Game game = new Game(player1, player2, board);
         game.playGame();
