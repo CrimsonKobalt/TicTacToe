@@ -1,9 +1,7 @@
 package debacker.christophe;
 
 import debacker.christophe.board.Board;
-import debacker.christophe.board.SimpleBoard;
 import debacker.christophe.move.GameMove;
-import debacker.christophe.player.DumbAIPlayer;
 import debacker.christophe.player.Player;
 import lombok.AccessLevel;
 import lombok.experimental.FieldDefaults;
@@ -24,21 +22,6 @@ public class Game {
         this.allowUndo = allowUndo;
     }
 
-    public Game(Player first, Player second, Board board) {
-        this(first, second, board, false);
-    }
-
-    public Game(Player first, Board board, boolean allowUndo) {
-        this(first, new DumbAIPlayer('G'), board, allowUndo);
-    }
-
-    public Game(Player first, boolean allowUndo) {
-        this(first, new SimpleBoard(), allowUndo);
-    }
-
-    public Game(Player first) {
-        this(first, false);
-    }
     public void playGame() {
         while (!board.isFinished()) {
             board.print();

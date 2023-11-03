@@ -1,10 +1,10 @@
 package debacker.christophe;
 
-import debacker.christophe.board.Board;
+import debacker.christophe.board.AcceptedMoveLoggingBoard;
 import debacker.christophe.board.SimpleBoard;
-import debacker.christophe.player.DumbAIPlayer;
-import debacker.christophe.player.HumanPlayer;
-import debacker.christophe.player.Player;
+import debacker.christophe.player.AIPlayerFactory;
+import debacker.christophe.player.DifficultyLevel;
+import debacker.christophe.player.HumanPlayerFactory;
 
 import java.util.Scanner;
 
@@ -13,12 +13,16 @@ public class Main {
 
     public static void main(String[] args) {
 
-        Player player1 = new DumbAIPlayer('X');
-        //Player player2 = new DumbAIPlayer('O');
-        Player player2 = new HumanPlayer('O');
-        Board board = new SimpleBoard();
+        HumanPlayerFactory humanPlayerFactory = new HumanPlayerFactory();
+        AIPlayerFactory aiPlayerFactory = new AIPlayerFactory(DifficultyLevel.HARD);
 
-        Game game = new Game(player1, player2, board);
+        Game game = new GameBuilder()
+                .playerOne(humanPlayerFactory.create('X'))
+                .playerTwo(aiPlayerFactory.create('O'))
+                .board(
+                        new AcceptedMoveLoggingBoard(new SimpleBoard())
+                ).allowUndo(false).build();
+
         game.playGame();
     }
 }

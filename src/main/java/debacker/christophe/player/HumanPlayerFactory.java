@@ -2,37 +2,35 @@ package debacker.christophe.player;
 
 import debacker.christophe.Main;
 import debacker.christophe.move.GameMove;
-import lombok.RequiredArgsConstructor;
 
 import java.util.Optional;
-import java.util.Scanner;
 import java.util.Set;
+import java.util.function.Function;
 
-@RequiredArgsConstructor
-public class HumanPlayer implements Player {
-
-    private final char symbol;
+public class HumanPlayerFactory implements PlayerFactory {
 
     private static final Set<Character> allowedChars = Set.of('A', 'B', 'C');
     private static final Set<Character> allowedInts = Set.of('1', '2', '3');
 
-    @Override
-    public GameMove nextMove() {
-        Optional<GameMove> selectedMove = Optional.empty();
-        while (selectedMove.isEmpty()) {
-            System.out.print("Please select a valid move (A1, B2, ...): ");
-            String input = Main.scanner.nextLine();
-            selectedMove = parse(input);
-        }
-        return selectedMove.get();
-    }
 
     @Override
-    public char symbol() {
-        return symbol;
+    public Player create(char name) {
+        return new TTTPlayer(consoleSupplier(), name);
     }
 
-    private Optional<GameMove> parse(String input) {
+    private Function<Player, GameMove> consoleSupplier() {
+        return (player) -> {
+            Optional<GameMove> selectedMove = Optional.empty();
+            while (selectedMove.isEmpty()) {
+                System.out.print("Please select a valid move (A1, B2, ...): ");
+                String input = Main.scanner.nextLine();
+                selectedMove = parse(input, player);
+            }
+            return selectedMove.get();
+        };
+    }
+
+    private Optional<GameMove> parse(String input, Player player) {
         input = input.trim();
         // definitely not correct
         if (input.length() != 2) {
@@ -48,7 +46,7 @@ public class HumanPlayer implements Player {
         }
 
         return Optional.of(new GameMove(
-                this,
+                player,
                 (int) first - 65,
                 Integer.parseInt(String.valueOf(second)) - 1));
     }
