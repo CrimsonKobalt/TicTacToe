@@ -1,6 +1,7 @@
 package debacker.christophe;
 
 import debacker.christophe.board.AcceptedMoveLoggingBoard;
+import debacker.christophe.board.ExtraSpecialCongratulationsBoard;
 import debacker.christophe.board.SimpleBoard;
 import debacker.christophe.player.AIPlayerFactory;
 import debacker.christophe.player.DifficultyLevel;
@@ -20,7 +21,8 @@ public class Main {
                 .playerOne(humanPlayerFactory.create('X'))
                 .playerTwo(aiPlayerFactory.create('O'))
                 .board(
-                        new AcceptedMoveLoggingBoard(new SimpleBoard())
+                        new ExtraSpecialCongratulationsBoard(
+                                new AcceptedMoveLoggingBoard(new SimpleBoard()))
                 ).allowUndo(false).build();
 
         game.playGame();
