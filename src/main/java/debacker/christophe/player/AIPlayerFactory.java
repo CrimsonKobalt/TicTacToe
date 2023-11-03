@@ -20,4 +20,8 @@ public class AIPlayerFactory implements PlayerFactory {
             return new GameMove(player, row, col);
         }, name);
     }
+
+    public Player create(char name, DifficultyLevel level) {
+        return this.create(name);
+    }
 }
